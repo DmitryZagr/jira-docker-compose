@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+
+  jira:
+    image: blacklabelops/jira
+    restart: always
+    volumes:
+      - ./jiravolume:/var/atlassian/jira
+    environment:
+      JIRA_DATABASE_URL: postgresql://jira@postgres/jiradb
+      JIRA_DB_PASSWORD: jellyfish
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:9.6.5
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: jellyfish
+      POSTGRES_DB: jiradb
+ 
